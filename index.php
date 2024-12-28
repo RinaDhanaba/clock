@@ -5,10 +5,9 @@
     <?php include 'main/meta.php';?>
 </head>
 <body class="light">
-<?php include 'header.php';?>
-<?php include 'body.php';?>
-<?php include 'footer.php';?>
-<?php include 'copyright.php';?>
-
+<?php include 'main/header.php';?>
+<?php include 'main/body.php';?>
+<?php include 'main/footer.php';?>
+<?php include 'main/copyright.php';?>
 </body>
 </html>
