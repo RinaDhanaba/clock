@@ -1,6 +1,6 @@
 
-<?php include 'clock/main/head.php';?>
-<?php include 'clock/main/meta.php';?>
+<?php include '/main/head.php';?>
+<?php include '/main/meta.php';?>
 
 <?php
 $meta = [
@@ -13,10 +13,10 @@ $meta = [
 </head>
 <body class="light">
 
-<?php include 'clock/main/header.php';?>
+<?php include '/main/header.php';?>
 
 <h1>My Account</h1>
 
 
-<?php include 'clock/main/footer.php';?>
-<?php include 'clock/main/copyright.php';?>
+<?php include '/main/footer.php';?>
+<?php include '/main/copyright.php';?>
