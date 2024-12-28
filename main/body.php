@@ -1,12 +1,4 @@
 
-<?php
-$meta = [
-    'title' => 'Home - My Website',
-    'description' => 'Welcome to the homepage of my minimalistic website.',
-    'keywords' => 'home, minimal, PHP website',
-    'author' => 'Your Name'
-];
-?>
 
     <!-- Theme Toggle Button -->
     <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
