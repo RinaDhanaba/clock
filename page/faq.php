@@ -15,7 +15,7 @@ $meta = [
 
 <?php include 'main/header.php';?>
 
-
+<h1>faq</h1>
 
 
 <?php include 'main/footer.php';?>

@@ -16,7 +16,7 @@ $meta = [
 <?php include 'main/header.php';?>
 
 
-
+<h1>support</h1>
 
 <?php include 'main/footer.php';?>
 <?php include 'main/copyright.php';?>
