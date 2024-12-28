@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Include database connection
-include 'db.php';
+include BASE_PATH . '/db.php';
 
 // Process the form when submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['registration_email'] = $email;
 
     // Redirect directly to the password creation page
-    header("Location: create-password.php");
+    header("Location: /create-password");
     exit;
 }
 ?>
