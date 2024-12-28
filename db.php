@@ -1,5 +1,5 @@
 <?php
-$host = 'srv1552.hstgr.io';
+$host = '193.203.184.109';
 $db = 'u649003729_BUQNI';
 $user = 'u649003729_S7DVl';
 $pass = 'FjfTJ@Bnwi7N25YC';
