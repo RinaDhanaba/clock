@@ -18,6 +18,4 @@ try {
     die("Could not connect to the database: " . $e->getMessage());
 }
 
-FLUSH PRIVILEGES;
-
 ?>
