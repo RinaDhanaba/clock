@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Include database connection
-include '/db.php';
+include __DIR__ . '/../db.php';
 
 // Process the form when submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
