@@ -1,6 +1,6 @@
 <?php
 
-$host = '193.203.184.109';
+$host = '127.0.0.1:3306';
 $db = 'u649003729_BUQNI';
 $user = 'u649003729_S7DVl';
 $pass = 'FjfTJ@Bnwi7N25YC';
