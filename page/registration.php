@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$email]);
     if ($stmt->rowCount() > 0) {
         die("This email is already registered.");
+        header("Location: /");
     }
 
     // Insert email and user group into the database
