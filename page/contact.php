@@ -1,6 +1,10 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-<?php include '../clock/main/head.php';?>
-<?php include '../clock/main/meta.php';?>
+define('BASE_PATH', __DIR__);
+include BASE_PATH . '/clock/main/head.php';
+include BASE_PATH . '/clock/main/meta.php'; ?>
 
 <?php
 $meta = [
@@ -13,10 +17,10 @@ $meta = [
 </head>
 <body class="light">
 
-<?php include '../clock/main/header.php';?>
+<?php include BASE_PATH . '/clock/main/header.php';?>
 
 <h1>contact</h1>
 
 
-<?php include '../clock/main/footer.php';?>
-<?php include '../clock/main/copyright.php';?>
+<?php include BASE_PATH .'/clock/main/footer.php';?>
+<?php include BASE_PATH .'/clock/main/copyright.php';?>
