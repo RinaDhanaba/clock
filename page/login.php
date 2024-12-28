@@ -25,12 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['email'] = $user['email'];
             $_SESSION['user_group'] = $user['user_group'];
 
-            // Redirect based on user group
-            if ($user['user_group'] === 'business_owner') {
-                header("Location: my-account.php"); 
-            } else {
-                header("Location: my-account.php"); 
-            }
+            // Redirect to appropriate page
+            header("Location: my-account.php"); 
             exit; 
         } else {
             $errorMessage = "Incorrect password.";
@@ -53,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if (!empty($errorMessage)): ?>
         <div class="error"><?php echo $errorMessage; ?></div>
     <?php endif; ?>
-    <form action="login.php" method="POST">
+    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
         <label for="email">Email:</label>
         <input type="email" name="email" id="email" required>
         <label for="password">Password:</label>
