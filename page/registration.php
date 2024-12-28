@@ -6,68 +6,67 @@ ini_set('display_errors', 1);
 // Include database connection
 include 'db.php';
 
-// Check if token and email are present in the session
-if (!isset($_SESSION['registration_token']) || !isset($_SESSION['registration_email'])) {
-  die("Invalid password creation request.");
-}
-
-$token = $_SESSION['registration_token'];
-$email = $_SESSION['registration_email'];
-
-// Validate token and email combination (you might want to re-validate with the database)
-// ... (similar validation as in the previous example) ...
-
-// Process password creation if form is submitted
+// Process the form when submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $password = trim($_POST['password']);
-  $confirm_password = trim($_POST['confirm_password']);
+    $email = trim($_POST['email']);
+    $user_group = trim($_POST['user_group']);
 
-  // Validate password
-  if (strlen($password) < 8) {
-    die("Password must be at least 8 characters long.");
-  }
+    // Validate email and user group
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        die("Invalid email address.");
+    }
+    if (!in_array($user_group, ['user', 'business_owner'])) {
+        die("Invalid user group selected.");
+    }
 
-  if ($password !== $confirm_password) {
-    die("Passwords do not match.");
-  }
+    // Check if the email already exists in the database
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    if ($stmt->rowCount() > 0) {
+        die("This email is already registered.");
+    }
 
-  // Hash password
-  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    // Insert email and user group into the database
+    $stmt = $pdo->prepare("INSERT INTO users (email, user_group) VALUES (?, ?)");
+    $stmt->execute([$email, $user_group]);
 
-  // Update user record with hashed password and remove token
-  $stmt = $pdo->prepare("UPDATE users SET password = ?, token = NULL WHERE email = ?");
-  $stmt->execute([$hashed_password, $email]);
+    // Generate a unique token for password creation
+    $token = bin2hex(random_bytes(32));
 
-  // Clear session variables
-  unset($_SESSION['registration_token']);
-  unset($_SESSION['registration_email']);
+    // Save the token in the database
+    $stmt = $pdo->prepare("UPDATE users SET token = ? WHERE email = ?");
+    $stmt->execute([$token, $email]);
 
-  // Success message and potential redirection
-  echo "Password created successfully! You can now log in.";
-  // header("Location: login.php"); // Redirect to login page (optional)
-  exit;
+    // Store token and email in session
+    $_SESSION['registration_token'] = $token;
+    $_SESSION['registration_email'] = $email;
+
+    // Redirect directly to the password creation page
+    header("Location: create-password.php");
+    exit;
 }
-
-// Display password creation form
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Password</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
 </head>
 <body>
-  <h1>Create Password</h1>
-  <form action="" method="POST">
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password" required>
-    <br>
-    <label for="confirm_password">Confirm Password:</label>
-    <input type="password" name="confirm_password" id="confirm_password" required>
-    <br>
-    <button type="submit">Create Password</button>
-  </form>
+    <h1>Register</h1>
+    <form action="" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+        <br>
+        <label for="user_group">I am a:</label>
+        <select name="user_group" id="user_group" required>
+            <option value="user">User</option>
+            <option value="business_owner">Business Owner</option>
+        </select>
+        <br>
+        <button type="submit">Register</button>
+    </form>
 </body>
 </html>

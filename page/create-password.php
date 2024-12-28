@@ -1,56 +1,67 @@
+<?php
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Include database connection
+include 'db.php';
+
+// Check if token and email are present in the session
+if (!isset($_SESSION['registration_token']) || !isset($_SESSION['registration_email'])) {
+    die("Invalid password creation request.");
+}
+
+$token = $_SESSION['registration_token'];
+$email = $_SESSION['registration_email'];
+
+// Process password creation if form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
+
+    // Validate password
+    if (strlen($password) < 8) {
+        die("Password must be at least 8 characters long.");
+    }
+
+    if ($password !== $confirm_password) {
+        die("Passwords do not match.");
+    }
+
+    // Hash password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Update user record with hashed password and remove token
+    $stmt = $pdo->prepare("UPDATE users SET password = ?, token = NULL WHERE email = ?");
+    $stmt->execute([$hashed_password, $email]);
+
+    // Clear session variables
+    unset($_SESSION['registration_token']);
+    unset($_SESSION['registration_email']);
+
+    // Success message and potential redirection
+    echo "Password created successfully! You can now log in.";
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create Password</title>
 </head>
-<?php
-session_start();
-include 'db.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
-
-    // Validate inputs
-    if (empty($email) || empty($password)) {
-        die("Email and password are required.");
-    }
-
-    // Hash the password
-    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-
-    // Update the user's password
-    $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE email = ?");
-    $stmt->execute([$hashed_password, $email]);
-
-    echo "Password created successfully. You can now log in.";
-}
-?>
-
-<?php
-$meta = [
-    'title' => 'create password',
-    'description' => 'Welcome to the homepage of my minimalistic website.',
-    'keywords' => 'home, minimal, PHP website',
-    'author' => 'Your Name'
-];
-?>
-</head>
-<body class="light">
-
-<?php include BASE_PATH . '/main/header.php'; ?>
-
-<h1>Create password</h1>
-
-<form action="create-password.php" method="POST">
-    <input type="hidden" name="email" value="<?php echo htmlspecialchars($_GET['email']); ?>">
-    <label for="password">New Password:</label>
-    <input type="password" name="password" id="password" required>
-    <button type="submit">Set Password</button>
-</form>
-
-
-<?php include BASE_PATH . '/main/footer.php'; ?>
-<?php include BASE_PATH . '/main/copyright.php'; ?>
+<body>
+    <h1>Create Password</h1>
+    <form action="" method="POST">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+        <br>
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" name="confirm_password" id="confirm_password" required>
+        <br>
+        <button type="submit">Create Password</button>
+    </form>
+</body>
+</html>
