@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Include database connection
-include BASE_PATH . 'db.php';
+include '/db.php';
 
 // Check if token and email are present in the session
 if (!isset($_SESSION['registration_token']) || !isset($_SESSION['registration_email'])) {
