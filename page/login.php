@@ -1,16 +1,12 @@
 <?php
-ob_start(); // Start output buffering (Ensure no output before header())
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Ensure no previous session is active
-if (isset($_SESSION['user_id'])) {
-    header("Location: my-account.php");
-    exit;
-}
+// Include database connection
+include __DIR__ . '/../db.php';
 
-include __DIR__ . '/../db.php'; // Ensure the correct path to db.php
+$errorMessage = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
@@ -19,17 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the user exists
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->execute([$email]);
-    $user = $stmt->fetch();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        // Debugging output
-        echo "User found: " . htmlspecialchars($user['email']) . "<br>";
-        echo "Password hash in DB: " . htmlspecialchars($user['password']) . "<br>";
-
         // Password verification
         if (password_verify($password, $user['password'])) {
-            echo "Password verified.<br>";
-
             // Store user details in session
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
@@ -37,17 +27,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Redirect based on user group
             if ($user['user_group'] === 'business_owner') {
-                header("Location: my-account.php");
-                exit; // Stop further script execution
+                header("Location: my-account.php"); 
             } else {
-                header("Location: my-account.php");
-                exit; // Stop further script execution
+                header("Location: my-account.php"); 
             }
+            exit; 
         } else {
-            echo "Password does not match.<br>";
+            $errorMessage = "Incorrect password.";
         }
     } else {
-        echo "No user found with this email.<br>";
+        $errorMessage = "No user found with this email.";
     }
 }
 ?>
@@ -61,6 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <h1>Login</h1>
+    <?php if (!empty($errorMessage)): ?>
+        <div class="error"><?php echo $errorMessage; ?></div>
+    <?php endif; ?>
     <form action="login.php" method="POST">
         <label for="email">Email:</label>
         <input type="email" name="email" id="email" required>
