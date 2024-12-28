@@ -18,8 +18,9 @@ if (isset($_SESSION['user_id'])) {
     echo "<p>You are logged in.</p>";
 
 } else {
-    // User is not logged in
-    echo "<h2>Please log in.</h2>";
+    
+    header("Location: /login");
+    exit;
 }
 ?>
 
