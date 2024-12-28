@@ -1,6 +1,15 @@
+<?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-<?php include 'clock/main/head.php';?>
-<?php include 'clock/main/meta.php';?>
+// Define the base path one level up from 'page'
+define('BASE_PATH', dirname(__DIR__));
+
+// Include files using the corrected path
+include BASE_PATH . '/main/head.php';
+include BASE_PATH . '/main/meta.php';
+?>
 
 <?php
 $meta = [
@@ -13,10 +22,10 @@ $meta = [
 </head>
 <body class="light">
 
-<?php include 'clock/main/header.php';?>
+<?php include BASE_PATH . '/main/header.php'; ?>
 
 <h1>About</h1>
 
 
-<?php include 'clock/main/footer.php';?>
-<?php include 'clock/main/copyright.php';?>
+<?php include BASE_PATH . '/main/footer.php'; ?>
+<?php include BASE_PATH . '/main/copyright.php'; ?>
