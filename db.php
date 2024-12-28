@@ -1,13 +1,15 @@
 <?php
 
-SELECT User, Host FROM mysql.user WHERE User = 'u649003729_S7DVl';
-GRANT USAGE ON *.* TO 'u649003729_S7DVl'@'193.203.184.109' IDENTIFIED BY 'FjfTJ@Bnwi7N25YC';
-GRANT ALL PRIVILEGES ON u649003729_BUQNI.* TO 'u649003729_S7DVl'@'193.203.184.109';
-
 $host = '193.203.184.109';
 $db = 'u649003729_BUQNI';
 $user = 'u649003729_S7DVl';
 $pass = 'FjfTJ@Bnwi7N25YC';
+
+// 1. Check if the host is reachable
+if (!@fsockopen($host, 3306)) { 
+    echo "Host '$host' is unreachable.\n";
+    exit;
+}
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
