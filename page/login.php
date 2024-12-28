@@ -28,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Redirect based on user group
         if ($user['user_group'] === 'business_owner') {
-            header("Location: business_dashboard.php");
+            header("Location: my-account.php");
         } else {
-            header("Location: user_dashboard.php");
+            header("Location: my-account.php");
         }
     } else {
         echo "Invalid email or password.";
