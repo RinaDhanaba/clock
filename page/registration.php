@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Include database connection
-include __DIR__ . '/../db.php';
+include __DIR__ . '/../db.php'; // Ensure the correct relative path to db.php
 
 // Process the form when submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,26 +24,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$email]);
     if ($stmt->rowCount() > 0) {
         die("This email is already registered.");
-        header("Location: /");
     }
 
     // Insert email and user group into the database
     $stmt = $pdo->prepare("INSERT INTO users (email, user_group) VALUES (?, ?)");
     $stmt->execute([$email, $user_group]);
 
-    // Generate a unique token for password creation
-    $token = bin2hex(random_bytes(32));
-
-    // Save the token in the database
-    $stmt = $pdo->prepare("UPDATE users SET token = ? WHERE email = ?");
-    $stmt->execute([$token, $email]);
-
-    // Store token and email in session
-    $_SESSION['registration_token'] = $token;
+    // Store email in session
     $_SESSION['registration_email'] = $email;
 
     // Redirect directly to the password creation page
-    header("Location: /create-password");
+    header("Location: /create-password.php");
     exit;
 }
 ?>
