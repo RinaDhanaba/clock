@@ -22,7 +22,7 @@ session_destroy();
     
 <?php
 session_start();
-include 'db.php';
+include __DIR__ . '/../db.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
