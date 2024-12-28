@@ -1,3 +1,16 @@
+<?php
+ob_start(); // Start output buffering
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
+session_unset();
+session_destroy();
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +32,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
+
+    if ($stmt->rowCount() === 0) {
+        echo "No user found with this email.<br>";
+    } elseif (!password_verify($password, $user['password'])) {
+        echo "Password does not match.<br>";
+    }
+    
+    if ($user) {
+        echo "User found: " . htmlspecialchars($user['email']) . "<br>";
+        echo "Password hash in DB: " . htmlspecialchars($user['password']) . "<br>";
+        if (password_verify($password, $user['password'])) {
+            echo "Password verified.<br>";
+        } else {
+            echo "Password mismatch.<br>";
+        }
+    } else {
+        echo "User not found.<br>";
+    }
+    
 
     if ($user && password_verify($password, $user['password'])) {
         // Store user details in session
