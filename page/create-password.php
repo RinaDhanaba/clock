@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Success message and potential redirection
     echo "Password created successfully! You can now log in.";
-    // header("Location: login.php"); // Redirect to login page (optional)
+    header("Location: login.php"); // Redirect to login page (optional)
     exit;
 }
 
