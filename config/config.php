@@ -12,3 +12,4 @@ define('DB_NAME', 'u649003729_BUQNI');
 
 // Other settings
 session_start();
+
