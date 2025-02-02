@@ -16,13 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'], $_POST['passw
     $email = $mysqli->real_escape_string(trim($_POST['email']));
     $password = trim($_POST['password']);
 
-    // In a real application, you should hash your passwords and verify using password_verify()
     $sql = "SELECT id, name, email, role, password FROM users WHERE email = '$email' LIMIT 1";
     $result = $mysqli->query($sql);
     if ($result && $result->num_rows == 1) {
         $user = $result->fetch_assoc();
-        // For demonstration, assume plain text password check (not recommended)
-        if ($password === $user['password']) {
+        // Use password_verify if passwords are hashed; otherwise, plain text check (not recommended)
+        if (password_verify($password, $user['password'])) {
             // Store user data in session
             $_SESSION['user'] = [
                 'id'    => $user['id'],
@@ -60,6 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'], $_POST['passw
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
+        <hr>
+        <p>Don't have an account? <a href="register.php">Register here</a>.</p>
     </div>
 </div>
 
