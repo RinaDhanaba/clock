@@ -4,45 +4,33 @@
 require_once '../config/config.php';
 include '../includes/header.php';
 
-// Define the directory to scan
-$directory = __DIR__; // This will scan the current 'public' directory
+// Define the directory to scan (directly inside the 'public/' folder)
+$directory = __DIR__; 
 
-// Define an array of files to exclude from the sitemap
-$exclude = ['.', '..', '.htaccess', 'header.php', 'footer.php', 'sitemap.php', 'config.php', 'db.php'];
+// Define files to exclude from the sitemap
+$exclude = [ '.htaccess', 'header.php', 'footer.php', 'sitemap.php', 'config.php', 'db.php'];
 
-// Scan the directory
-$files = scandir($directory);
+// Scan the public directory for files
+$files = array_diff(scandir($directory), $exclude);
 
-// Initialize an empty array to store pages
+// Initialize an array to store pages
 $pages = [];
 
-// Loop through the files and filter PHP pages
+// Loop through files and get PHP pages
 foreach ($files as $file) {
-    // Check if the file ends with ".php" and is not in the $exclude list
-    if (pathinfo($file, PATHINFO_EXTENSION) === 'php' && !in_array($file, $exclude)) {
-        // Remove the ".php" extension for display and URL generation
-        $pageSlug = basename($file, '.php');
+    if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+        $pageSlug = basename($file, '.php'); // Remove .php extension
 
-        // Handle the home page specially
-        if ($pageSlug === 'index') {
-            $pageTitle = 'Home';
-            $pageUrl   = BASE_URL; // Home page is BASE_URL
-        } else {
-            // Convert "about" to "About", "contact" to "Contact" etc.
-            $pageTitle = ucfirst(str_replace('_', ' ', $pageSlug));
-            $pageUrl   = BASE_URL . $pageSlug; // Example: /about
-        }
+        // Convert filename to readable format (example: about.php → About)
+        $pageTitle = ucfirst(str_replace('_', ' ', $pageSlug));
 
-        // Store the page in an array
-        $pages[] = [
-            'title' => $pageTitle,
-            'url'   => $pageUrl,
-        ];
+        // Generate URL without .php
+        $pageUrl = BASE_URL . $pageSlug;
+
+        // Store the page
+        $pages[] = ['title' => $pageTitle, 'url' => $pageUrl];
     }
 }
-
-// DEBUGGING: Uncomment below line to check if pages are being collected
-// echo "<pre>"; print_r($pages); echo "</pre>"; exit();
 
 ?>
 
@@ -61,7 +49,7 @@ foreach ($files as $file) {
             <?php endforeach; ?>
         </ul>
     <?php else: ?>
-        <p class="text-danger">No pages found. Make sure you have PHP files in the 'public' directory.</p>
+        <p class="text-danger">No pages found in the public folder.</p>
     <?php endif; ?>
 </div>
 
