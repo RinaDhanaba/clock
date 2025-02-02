@@ -1,16 +1,16 @@
-# public/.htaccess
-
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Redirect any requests to /index.php to /
+    # 1. Redirect direct requests for index.php to the domain root.
     RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/index\.php [NC]
     RewriteRule ^index\.php$ / [R=301,L]
 
-    # If the requested URL does not correspond to a real file or directory...
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    # ...but if adding .php makes it a real file, then serve that file.
+    # 2. If the requested file or directory exists, serve it directly.
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 3. Otherwise, if adding .php to the requested URL results in an existing file, serve that.
     RewriteCond %{REQUEST_FILENAME}.php -f
     RewriteRule ^(.*)$ $1.php [L]
 </IfModule>
