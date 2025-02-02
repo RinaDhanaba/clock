@@ -10,6 +10,10 @@ define('DB_USER', 'u649003729_S7DVl');
 define('DB_PASS', 'FjfTJ@Bnwi7N25YC');
 define('DB_NAME', 'u649003729_BUQNI');
 
+define('GOOGLE_CLIENT_ID', '963000999551-mgcts123rbbjj44e8ebakdctdf3attsc.apps.googleusercontent.com');
+define('GOOGLE_CLIENT_SECRET', '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');
+define('GOOGLE_REDIRECT_URI', BASE_URL . 'google-callback.php');
+
 // Other settings
 session_start();
 
