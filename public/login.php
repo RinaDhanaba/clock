@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'], $_POST['passw
     $email = $mysqli->real_escape_string(trim($_POST['email']));
     $password = trim($_POST['password']);
 
-    // In a real application, you would hash your passwords and verify using password_verify()
+    // In a real application, you should hash your passwords and verify using password_verify()
     $sql = "SELECT id, name, email, role, password FROM users WHERE email = '$email' LIMIT 1";
     $result = $mysqli->query($sql);
     if ($result && $result->num_rows == 1) {
@@ -60,36 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'], $_POST['passw
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
-
-        <hr>
-
-        <!-- Google Sign-In button -->
-        <div class="text-center">
-            <h4>Or sign in with Google</h4>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
-        </div>
     </div>
 </div>
-
-<script>
-// Called when Google sign-in is successful
-function onSignIn(googleUser) {
-    // Retrieve the Google ID token.
-    var id_token = googleUser.getAuthResponse().id_token;
-    // Send the token to your server with AJAX (or submit a hidden form)
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'google-callback.php');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
-      if (xhr.status === 200) {
-        // On success, redirect to dashboard
-        window.location.href = 'index.php';
-      } else {
-        alert('Google login failed.');
-      }
-    };
-    xhr.send('id_token=' + id_token);
-}
-</script>
 
 <?php include '../includes/footer.php'; ?>

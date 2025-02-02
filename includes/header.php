@@ -11,9 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>../assets/css/style.css">
-    <!-- Google Platform Library (for Google Sign-In) -->
-    <meta name="google-signin-client_id" content="<?php echo GOOGLE_CLIENT_ID; ?>">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
