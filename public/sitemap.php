@@ -1,37 +1,29 @@
 <?php
-// public/sitemap.php
-
 require_once '../config/config.php';
 include '../includes/header.php';
 
-// Define the directory to scan (directly inside the 'public/' folder)
-$directory = __DIR__; 
+// Define the directory to scan
+$directory = __DIR__; // This will scan the current 'public' directory
 
 // Define files to exclude from the sitemap
-$exclude = [ '.htaccess', 'header.php', 'footer.php', 'sitemap.php', 'config.php', 'db.php'];
+$exclude = ['.', '..', 'sitemap.php', 'index.php', 'header.php', 'footer.php'];
 
-// Scan the public directory for files
+// Scan the public directory
 $files = array_diff(scandir($directory), $exclude);
 
 // Initialize an array to store pages
 $pages = [];
 
-// Loop through files and get PHP pages
 foreach ($files as $file) {
+    // Only include .php files
     if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
-        $pageSlug = basename($file, '.php'); // Remove .php extension
-
-        // Convert filename to readable format (example: about.php → About)
+        $pageSlug = basename($file, '.php'); // Remove ".php"
         $pageTitle = ucfirst(str_replace('_', ' ', $pageSlug));
-
-        // Generate URL without .php
         $pageUrl = BASE_URL . $pageSlug;
 
-        // Store the page
         $pages[] = ['title' => $pageTitle, 'url' => $pageUrl];
     }
 }
-
 ?>
 
 <div class="container my-4">
