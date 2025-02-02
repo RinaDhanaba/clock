@@ -1,5 +1,8 @@
 <?php
+// public/index.php
 require_once '../config/config.php';
+require_once '../includes/auth.php';
+require_login();
 include '../includes/header.php';
 
 // Define the directory to scan
