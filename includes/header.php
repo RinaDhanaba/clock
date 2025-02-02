@@ -19,6 +19,8 @@
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ms-auto">
         <?php if(is_logged_in()): ?>
+          <li class="nav-item"><a class="nav-link" href="/about">About us</a></li>
+          <li class="nav-item"><a class="nav-link" href="/contact">contact us</a></li>
           <li class="nav-item">
             <a class="nav-link" href="#"><?php echo htmlspecialchars($_SESSION['user']['name']); ?></a>
           </li>
