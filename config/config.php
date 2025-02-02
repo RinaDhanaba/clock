@@ -10,7 +10,6 @@ define('DB_USER', 'u649003729_S7DVl');
 define('DB_PASS', 'FjfTJ@Bnwi7N25YC');
 define('DB_NAME', 'u649003729_BUQNI');
 
-// Google API settings (replace with your actual Google client ID and secret)
 
 // Other settings
 session_start();
