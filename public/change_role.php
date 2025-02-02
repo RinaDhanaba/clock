@@ -11,9 +11,9 @@ require_login();
 $message = '';
 
 // Check if a user ID is provided via GET (e.g., ?id=2)
-if (!isset($_GET['id'])) {
-    die("User ID is required.");
-}
+// if (!isset($_GET['id'])) {
+//     die("User ID is required.");
+// }
 $user_id = (int) $_GET['id'];
 
 // Retrieve user information from the database
