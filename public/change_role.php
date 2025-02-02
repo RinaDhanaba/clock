@@ -8,11 +8,6 @@ require_once '../includes/auth.php';
 // Ensure the user is logged in
 require_login();
 
-// Only allow admins to access this page
-if (!has_role('admin')) {
-    die("Access denied. Admins only.");
-}
-
 $message = '';
 
 // Check if a user ID is provided via GET (e.g., ?id=2)
