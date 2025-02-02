@@ -12,7 +12,7 @@ define('DB_NAME', 'u649003729_BUQNI');
 
 // Google API settings (replace with your actual Google client ID)
 define('GOOGLE_CLIENT_ID', '963000999551-mgcts123rbbjj44e8ebakdctdf3attsc.apps.googleusercontent.com');
-define('GOOGLE_CLIENT_SECRET', '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');
+// define('GOOGLE_CLIENT', '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');
 define('GOOGLE_REDIRECT_URI', BASE_URL . 'google-callback.php');
 
 // Other settings
