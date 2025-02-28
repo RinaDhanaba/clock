@@ -25,4 +25,24 @@ switch ($_SESSION['user']['role']) {
 }
 ?>
 
+
+
+
+<?php
+include 'products.php';
+?>
+
+<h1>All Products</h1>
+<div class="product-grid">
+    <?php foreach ($products as $product): ?>
+        <div>
+            <img src="<?= $product['image']; ?>" alt="<?= $product['title']; ?>" width="200">
+            <h3><?= $product['title']; ?></h3>
+            <p><?= $product['price']; ?></p>
+            <a href="/product/<?= $product['slug']; ?>">View Product</a>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+
 <?php include '../includes/footer.php'; ?>
