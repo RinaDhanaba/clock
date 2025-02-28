@@ -5,6 +5,9 @@
     RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/index\.php [NC]
     RewriteRule ^index\.php$ / [R=301,L]
 
+    # Custom Product URL Rule (Add this above other rules)
+    RewriteRule ^product/([a-zA-Z0-9_-]+)$ product.php?slug=$1 [L,QSA]
+
     # 2. If the requested file or directory exists, serve it directly.
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
@@ -13,8 +16,5 @@
     # 3. Otherwise, if adding .php to the requested URL results in an existing file, serve that.
     RewriteCond %{REQUEST_FILENAME}.php -f
     RewriteRule ^(.*)$ $1.php [L]
-
-    
-    RewriteRule ^product/([a-zA-Z0-9_-]+)$ product.php?slug=$1 [L,QSA]
 
 </IfModule>
